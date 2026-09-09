@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+
+# Dataset files
+*.csv
+*.zip
+
+# Large generated retrieval/index files
+*.index
+*.faiss
+
+# Generated evaluation outputs
+*_results.csv
+
+# Model/cache files
+.cache/
+models/
+sentence_transformers/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
