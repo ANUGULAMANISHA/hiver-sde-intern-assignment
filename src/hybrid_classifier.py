@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -12,23 +13,30 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Hiver SDE Assignment - Hybrid Intent Classifier
 # ============================================================
 
-print("=" * 65)
-print("HIVER SDE ASSIGNMENT - HYBRID INTENT CLASSIFIER")
-print("=" * 65)
-
 
 # ------------------------------------------------------------
 # 1. Load historical training data
 # ------------------------------------------------------------
 
-TRAIN_FILE = "training_data.csv"
+# Project root is one level above src/
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+TRAIN_FILE = PROJECT_ROOT / "training_data.csv"
+
+if not TRAIN_FILE.exists():
+    raise FileNotFoundError(
+        f"training_data.csv not found at: {TRAIN_FILE}\n"
+        "Place training_data.csv in the project root directory."
+    )
 
 df = pd.read_csv(TRAIN_FILE)
+
 
 # The prepared training file uses "text".
 # Rename it to "customer_message" for consistency.
 if "customer_message" not in df.columns and "text" in df.columns:
     df = df.rename(columns={"text": "customer_message"})
+
 
 # Check required columns
 required_columns = ["customer_message", "intent"]
@@ -44,10 +52,12 @@ if missing_columns:
         f"Available columns: {list(df.columns)}"
     )
 
+
 # Remove empty rows
 df = df.dropna(
     subset=["customer_message", "intent"]
 ).copy()
+
 
 df["customer_message"] = (
     df["customer_message"]
@@ -55,11 +65,13 @@ df["customer_message"] = (
     .str.strip()
 )
 
+
 df["intent"] = (
     df["intent"]
     .astype(str)
     .str.strip()
 )
+
 
 df = df[
     (df["customer_message"] != "") &
@@ -67,17 +79,24 @@ df = df[
 ].copy()
 
 
+print("=" * 65)
+print("HIVER SDE ASSIGNMENT - HYBRID INTENT CLASSIFIER")
+print("=" * 65)
+
 print(f"\nTraining examples: {len(df)}")
 print(f"Intents: {df['intent'].nunique()}")
+
 
 labels = sorted(
     df["intent"].unique()
 )
 
+
 print("\nIntents:")
 
 for label in labels:
     print(f"- {label}")
+
 
 print("\nIntent distribution:")
 print(df["intent"].value_counts())
@@ -91,6 +110,7 @@ print("\n" + "=" * 65)
 print("TRAINING TF-IDF + LOGISTIC REGRESSION")
 print("=" * 65)
 
+
 tfidf = TfidfVectorizer(
     lowercase=True,
     ngram_range=(1, 2),
@@ -99,19 +119,23 @@ tfidf = TfidfVectorizer(
     sublinear_tf=True
 )
 
+
 X_tfidf = tfidf.fit_transform(
     df["customer_message"]
 )
+
 
 tfidf_model = LogisticRegression(
     max_iter=1000,
     class_weight="balanced"
 )
 
+
 tfidf_model.fit(
     X_tfidf,
     df["intent"]
 )
+
 
 print("TF-IDF model trained successfully.")
 
@@ -124,11 +148,14 @@ print("\n" + "=" * 65)
 print("LOADING SEMANTIC MODEL")
 print("=" * 65)
 
+
 semantic_model = SentenceTransformer(
     "all-MiniLM-L6-v2"
 )
 
+
 print("Creating semantic embeddings...")
+
 
 embeddings = semantic_model.encode(
     df["customer_message"].tolist(),
@@ -137,8 +164,8 @@ embeddings = semantic_model.encode(
     normalize_embeddings=True
 )
 
-print("Semantic embeddings created.")
 
+print("Semantic embeddings created.")
 print(f"Embedding count: {len(embeddings)}")
 
 
@@ -157,6 +184,7 @@ def hybrid_predict(message):
 
     message = str(message).strip()
 
+
     if not message:
         return {
             "intent": "Unknown",
@@ -167,6 +195,7 @@ def hybrid_predict(message):
             "semantic_confidence": 0.0
         }
 
+
     # --------------------------------------------------------
     # TF-IDF prediction
     # --------------------------------------------------------
@@ -175,19 +204,23 @@ def hybrid_predict(message):
         [message]
     )
 
+
     tfidf_probabilities = (
         tfidf_model.predict_proba(
             tfidf_vector
         )[0]
     )
 
+
     tfidf_index = np.argmax(
         tfidf_probabilities
     )
 
+
     tfidf_intent = (
         tfidf_model.classes_[tfidf_index]
     )
+
 
     tfidf_confidence = float(
         tfidf_probabilities[tfidf_index]
@@ -203,17 +236,21 @@ def hybrid_predict(message):
         normalize_embeddings=True
     )
 
+
     similarities = cosine_similarity(
         message_embedding,
         embeddings
     )[0]
+
 
     # Get top 5 similar historical examples
     top_indices = np.argsort(
         similarities
     )[::-1][:5]
 
+
     semantic_scores = {}
+
 
     for index in top_indices:
 
@@ -223,8 +260,10 @@ def hybrid_predict(message):
             similarities[index]
         )
 
+
         if intent not in semantic_scores:
             semantic_scores[intent] = 0.0
+
 
         semantic_scores[intent] += similarity
 
@@ -234,6 +273,7 @@ def hybrid_predict(message):
         semantic_scores,
         key=semantic_scores.get
     )
+
 
     semantic_confidence = float(
         similarities[top_indices[0]]
@@ -246,6 +286,7 @@ def hybrid_predict(message):
 
     hybrid_scores = {}
 
+
     for label in labels:
 
         # TF-IDF probability
@@ -253,9 +294,11 @@ def hybrid_predict(message):
             tfidf_model.classes_
         ).index(label)
 
+
         tfidf_score = float(
             tfidf_probabilities[class_index]
         )
+
 
         # Semantic similarity vote
         semantic_score = semantic_scores.get(
@@ -263,9 +306,11 @@ def hybrid_predict(message):
             0.0
         )
 
+
         # Normalize semantic score because
         # up to 5 examples contribute to it
         semantic_score = semantic_score / 5.0
+
 
         # Weighted combination
         hybrid_scores[label] = (
@@ -280,13 +325,21 @@ def hybrid_predict(message):
         key=hybrid_scores.get
     )
 
+
     raw_confidence = hybrid_scores[
         hybrid_intent
     ]
 
+
     # Keep confidence in 0-1 range
     hybrid_confidence = float(
-        min(max(raw_confidence, 0.0), 1.0)
+        min(
+            max(
+                raw_confidence,
+                0.0
+            ),
+            1.0
+        )
     )
 
 
@@ -301,153 +354,183 @@ def hybrid_predict(message):
 
 
 # ============================================================
-# 5. Test Examples
+# 5. Test Examples + Interactive Mode
 # ============================================================
 
-test_messages = [
+def run_tests():
+    """
+    Run predefined test examples.
+    """
 
-    "My order is delayed and has not arrived yet.",
+    test_messages = [
 
-    "I want to return this item and get my money back.",
+        "My order is delayed and has not arrived yet.",
 
-    "The product I received is damaged.",
+        "I want to return this item and get my money back.",
 
-    "Can you tell me where my package is?",
+        "The product I received is damaged.",
 
-    "I need help with my account.",
+        "Can you tell me where my package is?",
 
-    "When will my order arrive?",
+        "I need help with my account.",
 
-    "My device is not working.",
+        "When will my order arrive?",
 
-    "I need to contact Amazon customer support."
-]
+        "My device is not working.",
 
-
-print("\n" + "=" * 65)
-print("HYBRID MODEL TEST")
-print("=" * 65)
-
-
-for message in test_messages:
-
-    result = hybrid_predict(
-        message
-    )
-
-    print("\nCustomer:")
-    print(message)
-
-    print("\nHybrid prediction:")
-    print(result["intent"])
-
-    print(
-        f"Hybrid confidence: "
-        f"{result['confidence']:.4f}"
-    )
-
-    print(
-        f"TF-IDF prediction: "
-        f"{result['tfidf_intent']} "
-        f"({result['tfidf_confidence']:.4f})"
-    )
-
-    print(
-        f"Semantic prediction: "
-        f"{result['semantic_intent']} "
-        f"({result['semantic_confidence']:.4f})"
-    )
-
-    print("-" * 65)
+        "I need to contact Amazon customer support."
+    ]
 
 
-# ============================================================
-# 6. Interactive Mode
-# ============================================================
-
-print("\n" + "=" * 65)
-print("INTERACTIVE HYBRID MODE")
-print("Type 'exit' to stop.")
-print("=" * 65)
+    print("\n" + "=" * 65)
+    print("HYBRID MODEL TEST")
+    print("=" * 65)
 
 
-while True:
+    for message in test_messages:
 
-    try:
-
-        message = input(
-            "\nCustomer message: "
-        ).strip()
-
-    except KeyboardInterrupt:
-
-        print("\nExiting...")
-        break
-
-    except EOFError:
-
-        print("\nExiting...")
-        break
-
-
-    if message.lower() == "exit":
-
-        print("Goodbye!")
-        break
-
-
-    if not message:
-
-        continue
-
-
-    result = hybrid_predict(
-        message
-    )
-
-
-    print("\nPredicted intent:")
-    print(result["intent"])
-
-    print(
-        f"Hybrid confidence: "
-        f"{result['confidence']:.4f}"
-    )
-
-    print(
-        f"TF-IDF prediction: "
-        f"{result['tfidf_intent']} "
-        f"({result['tfidf_confidence']:.4f})"
-    )
-
-    print(
-        f"Semantic prediction: "
-        f"{result['semantic_intent']} "
-        f"({result['semantic_confidence']:.4f})"
-    )
-
-    print(
-        "\nDecision:"
-    )
-
-    # Simple confidence-based decision
-    if result["confidence"] >= 0.60:
-
-        print("AUTO-HANDLE")
-
-        print(
-            "Reason: "
-            "High-confidence intent prediction."
+        result = hybrid_predict(
+            message
         )
 
-    else:
 
-        print("ESCALATE")
+        print("\nCustomer:")
+        print(message)
+
+
+        print("\nHybrid prediction:")
+        print(result["intent"])
+
 
         print(
-            "Reason: "
-            "Low-confidence intent prediction; "
-            "human verification recommended."
+            f"Hybrid confidence: "
+            f"{result['confidence']:.4f}"
         )
 
-    print("-" * 65)
+
+        print(
+            f"TF-IDF prediction: "
+            f"{result['tfidf_intent']} "
+            f"({result['tfidf_confidence']:.4f})"
+        )
+
+
+        print(
+            f"Semantic prediction: "
+            f"{result['semantic_intent']} "
+            f"({result['semantic_confidence']:.4f})"
+        )
+
+
+        print("-" * 65)
+
+
+def interactive_mode():
+    """
+    Interactive customer-support intent prediction.
+    """
+
+    print("\n" + "=" * 65)
+    print("INTERACTIVE HYBRID MODE")
+    print("Type 'exit' to stop.")
+    print("=" * 65)
+
+
+    while True:
+
+        try:
+
+            message = input(
+                "\nCustomer message: "
+            ).strip()
+
+
+        except KeyboardInterrupt:
+
+            print("\nExiting...")
+            break
+
+
+        except EOFError:
+
+            print("\nExiting...")
+            break
+
+
+        if message.lower() == "exit":
+
+            print("Goodbye!")
+            break
+
+
+        if not message:
+
+            continue
+
+
+        result = hybrid_predict(
+            message
+        )
+
+
+        print("\nPredicted intent:")
+        print(result["intent"])
+
+
+        print(
+            f"Hybrid confidence: "
+            f"{result['confidence']:.4f}"
+        )
+
+
+        print(
+            f"TF-IDF prediction: "
+            f"{result['tfidf_intent']} "
+            f"({result['tfidf_confidence']:.4f})"
+        )
+
+
+        print(
+            f"Semantic prediction: "
+            f"{result['semantic_intent']} "
+            f"({result['semantic_confidence']:.4f})"
+        )
+
+
+        print("\nDecision:")
+
+
+        # Confidence-based decision
+        if result["confidence"] >= 0.60:
+
+            print("AUTO-HANDLE")
+
+            print(
+                "Reason: "
+                "High-confidence intent prediction."
+            )
+
+
+        else:
+
+            print("ESCALATE")
+
+            print(
+                "Reason: "
+                "Low-confidence intent prediction; "
+                "human verification recommended."
+            )
+
+
+        print("-" * 65)
+
+
+# ============================================================
+# 6. Main Entry Point
+# ============================================================
+
+if __name__ == "__main__":
+
+    run_tests()
+
+    interactive_mode()
