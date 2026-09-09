@@ -7,3 +7,4 @@ faiss-cpu
 scipy
 python-dotenv
 pytest
+google-genai
