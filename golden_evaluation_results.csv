@@ -1,0 +1,212 @@
+text,intent,predicted_intent,correct
+@601264 d'accord dès réception du formulaire nous traiterons le cas. Merci ^RA,Account / Contact Support,Product / Device Support,False
+@487109 Please connect with our support team here: https://t.co/2t6DQoUmNZ for further assistance on it. ^RW,Order Tracking / Status,Product / Device Support,False
+"@158511 Dafna, por motivos de seguridad el Departamento de Cuentas necesita verificar los dados de tu cuenta. ^DA",Order Tracking / Status,Product / Device Support,False
+@319439 I understand and I have shared your comments as feedback with the relevant team. Please refer to the link for more info. ^HA,Order Tracking / Status,Late / Missing Delivery,False
+@626224 Please give us a call here: https://t.co/hApLpMlfHN so we can look into this with you! ^TR,Order Tracking / Status,Product / Device Support,False
+@503038 You should've received an email from us in response to the details you shared earlier. Kindly check for our email and reply to it for further assistance. ^NR,Late / Missing Delivery,Account / Contact Support,False
+"@210808 Thank you! We've received your message, and we'll be in contact with you. ^JM",Delivery Date / Shipping,Account / Contact Support,False
+@791889 Mhm that is strange! When you checked for the e-mail did you also check the spam/Junk folder? ^LS,Return / Refund,Account / Contact Support,False
+@822437 わざわざリプライ恐れ入ります。当サイトの名をかたるフィッシング行為についてヘルプページでも注意喚起を行っておりますので、ご参照ください。https://t.co/k4jy2iTq1Y  RI,Return / Refund,Product / Device Support,False
+@271684 Avez-vous signalé cela à notre SAV ? ^MA,Product / Device Support,Product / Device Support,True
+"@227946 I'm sorry to hear this! When you have a chance, we'd like to look into it further with you here: https://t.co/JzP7hlRCV9^HC",Account / Contact Support,Product / Device Support,False
+@399487 Amen to that! Thanks for sharing your experience with us. ^MJ,Account / Contact Support,Product / Device Support,False
+@294659 Please contact us via phone or chat and we'll look into this for you: https://t.co/JzP7hlA23B ^RL,Account / Contact Support,Account / Contact Support,True
+@345560 We'll not be able to check your information over Twitter. Request you to write back to the email you've (1/2) ^GK,Account / Contact Support,Account / Contact Support,True
+"@775307 Je confirme 😜 Surtout avec le nouveau clavier, je pense que ça va être chaud. ^SB",Product / Device Support,Product / Device Support,True
+"@206722 We'd like to look further into this with you in real-time, Julian. Please reach out to us here: https://t.co/JzP7hlA23B ^WJ",Damaged / Defective Product,Product / Device Support,False
+"@133254 I'm sorry to hear of this, did you get an email advising why it was delayed? ^KI",Delivery Date / Shipping,Account / Contact Support,False
+@220927 I'm sorry about this your parcel hasn't arrived! We want to be sure you are receiving your parcels when they are expected. Please reach out to us directly here so that we can take a look into this for you: https://t.co/JzP7hlA23B We'd like to help! ^ZW,Late / Missing Delivery,Late / Missing Delivery,True
+@215430 Sorry for the trouble. Please connect with our support team here: https://t.co/00q4Sqj9zL and we'll this checked. ^KA,Late / Missing Delivery,Late / Missing Delivery,True
+@334911 avez-vous signalé cela auprès de notre SAV ? ^ Ko,Order Tracking / Status,Product / Device Support,False
+@236120 Sorry about this. Please fill out this secure form and a specialist will look into this for you https://t.co/R55eEQwSEs ^KM,Order Tracking / Status,Product / Device Support,False
+"@315813 Hi, sorry to hear that your parcel was delayed. Please let us know if your order does not arrive on your revised delivery date of Wednesday. ^TI",Order Tracking / Status,Late / Missing Delivery,False
+@120092 I understand there has been an inconvenience in your concern. We have your details and will contact you soon. ^GK,Order Tracking / Status,Account / Contact Support,False
+"@145872 As they have account access, they would be in the best position to assist. Please contact us through the previously provided link. ^RR",Order Tracking / Status,Account / Contact Support,False
+"@272341 Sobald uns deine Anfrage erreicht hat, sehen wir uns deinen Fall an und melden uns im Laufe des Tages. Viele Grüße ^TR",Order Tracking / Status,Product / Device Support,False
+"@271121 We'd love to assist you! Please reach out to us here:  https://t.co/hApLpMlfHN
+^GP",Order Tracking / Status,Product / Device Support,False
+@428207 Let us look into it. Please reach out to us from the link here: https://t.co/TxK11znixD  and we will assist you accordingly. ^HR,Order Tracking / Status,Product / Device Support,False
+@120700 Sorry that the issue is still pending. May I know if you've contacted your bank &amp; filed a charge dispute? ^EM,Order Tracking / Status,Account / Contact Support,False
+@368302 Can you contact us here: https://t.co/JzP7hlA23B? ^MC,Order Tracking / Status,Account / Contact Support,False
+@485227 ご寛大なお言葉をいただきありがとうございます。このたびご迷惑をおかけしたことを真摯に受け止め、今後のサービス改善に努めて参ります。　リプライありがとうございました。　SM,Order Tracking / Status,Product / Device Support,False
+@531840 I apologize for the delay. Let's look into this in real time. Please call or chat here: https://t.co/IcrqzPZII9 ^BA,Late / Missing Delivery,Late / Missing Delivery,True
+@157633 We can be reached 24/7 with the link posted earlier. We can take a closer look at the missing order &amp; into avail options. ^EP,Order Tracking / Status,Late / Missing Delivery,False
+"@558209 I'm sorry, it didn't work out. Your feedback has already been forwarded to the concerned team for review. ^HA",Order Tracking / Status,Late / Missing Delivery,False
+@127186 We've sent the correspondence to your registered email ID. Kindly check it here: https://t.co/8DAc10S7ww ^GK,Order Tracking / Status,Account / Contact Support,False
+@201315 Thanks for the update. We'll check and get back to you at the earliest. ^HA,Order Tracking / Status,Late / Missing Delivery,False
+"@287420 I understand your concern. However, did you happen to report this to our support team? ^MN",Order Tracking / Status,Product / Device Support,False
+@669577 I have checked our records and I see that we have received your details now. Our team is working on it and we'll get back to you at the earliest. ^RI,Order Tracking / Status,Late / Missing Delivery,False
+@452178 We'd be sure to investigate the issue completely and ensure these instances do not recur. Appreciate your understanding. ^ZH,Order Tracking / Status,Product / Device Support,False
+@439603 Oh no! Who was the carrier of the packages? https://t.co/Y5jpI9gRhE ^RM,Order Tracking / Status,Delivery Date / Shipping,False
+@242503 I get your disappointment. We'll work on it and get back to you at the earliest with regards to your concern. ^JS,Order Tracking / Status,Product / Device Support,False
+@424985 Oh no! Will you clarify the delivery date given at check out? You can find that here: https://t.co/Y5jpI9gRhE?  ^BA,Return / Refund,Delivery Date / Shipping,False
+@364675 Please report this to our team here: https://t.co/vlvfJr4nN9 and we'll get this sorted soon. ^RS,Delivery Date / Shipping,Late / Missing Delivery,False
+@471751 I've noted this down and will surely forward this as a feedback internally and make sure this is worked upon in the future.^SS,Late / Missing Delivery,Product / Device Support,False
+@274548 I am very sorry to hear this. Delays are rare but do occur on occasions. Please do keep us updated on the arrival.^CR,Late / Missing Delivery,Late / Missing Delivery,True
+@210098 The resolution provided to you via email is the best. Appreciate your understanding. ^AP,Order Tracking / Status,Account / Contact Support,False
+"@491340 Also, please don’t provide your order/account details as we consider them to be personal information. 2/3 ^SB",Damaged / Defective Product,Account / Contact Support,False
+@683414 Er... Sorry about that. What does the tracking for the order say here: https://t.co/Y5jpI9gRhE? ^TR,Product / Device Support,Order Tracking / Status,False
+"@529494 We'd like to look into this with you. When you can, please reach us via phone or chat here: https://t.co/CYqkdUakWJ ^SJ",Damaged / Defective Product,Product / Device Support,False
+"@147586 You're welcome, if you need anything else then please don't hesitate to let us know. ^KI",Late / Missing Delivery,Product / Device Support,False
+"@661277 I understand your disappointment. However, as the content is geo-restricted, you'll not be able to access the prime video content in Singapore. ^AP",Delivery Date / Shipping,Product / Device Support,False
+"@797127 We'd like to bring this to the attention of our Logistics team for further review. When you have a moment, please relay order specifics to us via the following secure link, and we'll be in touch: https://t.co/W7BgDBeee5 ^MV",Late / Missing Delivery,Late / Missing Delivery,True
+"@442621 I apologize! To clarify, did you receive the wrong item, or did you randomly receive something you didn't order? ^NC",Late / Missing Delivery,Return / Refund,False
+"@149982 Gabriella, você sabe qual desses livros vai ler primeiro?. Ficamos curiosos. 🤔📚^NB",Return / Refund,Product / Device Support,False
+@373139 Have you tried checking the tracking on the carrier's website? They may have additional info. ^JA,Account / Contact Support,Order Tracking / Status,False
+@168355 Sorry for the confusion. Could you confirm if you've replied to the email you've recieved from our team? ^MM,Product / Device Support,Account / Contact Support,False
+@293797 Kindly wait until the estimated delivery date. I'm positive the product will be delivered on time. Do keep us posted. ^AK,Damaged / Defective Product,Delivery Date / Shipping,False
+@150734 Kindly wait until the estimated delivery date mentioned here: https://t.co/pYHdlcj0Ot and I'm positive your order will be delivered. ^SH,Return / Refund,Delivery Date / Shipping,False
+"@647618 That's strange, Varun. If you've responded to the email correspondence, you will receive an update shortly. Request you to wait. If you still don't receive any correspondence, please get back to us so that we will assist you.  ^NK",Delivery Date / Shipping,Account / Contact Support,False
+@336911 it would not be posted. (2/2) ^KA,Account / Contact Support,Product / Device Support,False
+"@627410 Hi Mike, please submit your details in this secure form so that we can look into it further: https://t.co/R55eEQwSEs -Agi T",Product / Device Support,Product / Device Support,True
+@664790 I'm sorry for the account issues! Please reach out here: https://t.co/FGTMFSd8Rn so we can take a look into this for you. ^AH,Account / Contact Support,Account / Contact Support,True
+@683076 Certainly not the kind of experience we'd want you to have. I'd like to take a closer look at this. Please share your details here: https://t.co/beaaDm0muc and I’ll contact you soon. ^SM,Product / Device Support,Account / Contact Support,False
+"@192058 Sorry about the stretch, please drop in your details here: https://t.co/GIJyeYqKE0 and we'll reach out to you. ^MS",Account / Contact Support,Late / Missing Delivery,False
+"@452590 As you've shared your details, we'll work on it and get back to you at the earliest. ^HN",Account / Contact Support,Damaged / Defective Product,False
+@242948 Je vous en prie :) Passez un bon week-end😊,Late / Missing Delivery,Product / Device Support,False
+"@639881 Avez-vous également signalé ces incidents à notre SAV ? 
+^KE",Order Tracking / Status,Product / Device Support,False
+"@164002 I understand, but unfortunately we do not have access to your account or details via Twitter. We'd still like to help! Just to clarify, can you tell us what the current order status is showing here: https://t.co/Y5jpI9gRhE ^SC",Return / Refund,Account / Contact Support,False
+@155474 Se refiere a que escribas en el documento del estado de cuenta los últimos 4 dígitos del número que aparece en la parte frontal de tu tarjeta ^AR,Delivery Date / Shipping,Product / Device Support,False
+"@171427 hence is dynamic. However, I'll share your comments as feedback internally. 2/2^EM",Late / Missing Delivery,Late / Missing Delivery,True
+@204354 クレジットカードでご注文いただいた場合、商品の発送時にご請求いたします。自動的に行われますので、発送までお待ちください。 EK,Return / Refund,Product / Device Support,False
+@687045 We would like to have a look at this issue. Please provide your details: https://t.co/MBAcWSvzBH Kind regards ^TR,Return / Refund,Product / Device Support,False
+"@333862 (1/2) I understand how hurt and frustrating this must feel. At the end of the chat, you should have been able to leave feedback.",Delivery Date / Shipping,Product / Device Support,False
+@155862 We're unable to view account or order details via Twitter to arrange a collection. Please contact us via the link ^CN had provided. ^AD,Order Tracking / Status,Account / Contact Support,False
+@144472 Por gentileza entre em contato com o nosso Serviço de Atendimento no seguinte link Scott: https://t.co/ouAOLcNWp4 ^JJ,Product / Device Support,Product / Device Support,True
+"@327655 The e-mail/ survey/communication you received wasn't from Amazon.in. We recommend that you delete the e-mail/ do not respond. For your protection, do not respond to it, and do not open any attachments or click any links it contains. ^SH",Return / Refund,Account / Contact Support,False
+@255941 You can read more on potential delivery restrictions via our help page: https://t.co/0ZCM8LsDAJ ^KI,Return / Refund,Delivery Date / Shipping,False
+"@494483 Entiendo, por favor contactanos a través de este enlace para brindarte más información: https://t.co/OjvUxwnzPe . ^MB",Delivery Date / Shipping,Product / Device Support,False
+@277598 I'm so sorry for the trouble! Please contact us here for additional options: https://t.co/hApLpMlfHN ^MO,Product / Device Support,Account / Contact Support,False
+@501789 We'd like a chance to look into this in real-time! Please reach out to us via chat or phone here: https://t.co/hApLpMlfHN ^WT,Late / Missing Delivery,Product / Device Support,False
+"@129257 For future deliveries, you can set unattended delivery preferences with us: https://t.co/tagfgnIjMt. Please let us know if you still need us. We're here for you! ^KJ",Order Tracking / Status,Delivery Date / Shipping,False
+@294361 Were you emailed to advise the refund was requested?^CD,Late / Missing Delivery,Return / Refund,False
+"@117801 (2/2) If we’ve missed the date in our order confirmation e-mail, please let us know here: https://t.co/hApLpMlfHN! ^WT",Delivery Date / Shipping,Delivery Date / Shipping,True
+@393065 and we'll assist you accordingly. ^SU(3/3),Return / Refund,Product / Device Support,False
+@363009 We'd like to look into this. Send us more details about this order here: https://t.co/9Kx9wleaeW ^CL,Damaged / Defective Product,Product / Device Support,False
+@362766 Contact our customer service here: https://t.co/tzC7rdtO2F; my colleagues will be pleased to assist you. ^ST,Product / Device Support,Account / Contact Support,False
+@121290 Kindly contact our team here: https://t.co/vlvfJr4nN9 and we'll have this checked. ^GK,Account / Contact Support,Account / Contact Support,True
+@133051 Thanks a bunch for dropping your details. We shall reach at the earliest to make things right for you. ^CB,Order Tracking / Status,Delivery Date / Shipping,False
+@670189 I'm sorry your package hasn't shown! Who was the carrier for this order? That information can be found here: https://t.co/Y5jpI9gRhE ^QJ,Late / Missing Delivery,Delivery Date / Shipping,False
+@182725 What information or options were provided when you spoke to us? We'd like to help get this resolved. ^ZW,Return / Refund,Product / Device Support,False
+@175082 Sorry for the hassle. Please share your details here: https://t.co/GIJyeY99fq and I'll get back to you. ^HN,Delivery Date / Shipping,Late / Missing Delivery,False
+@171265 your order/account details as we consider them to be personal information. Our Twitter page is visible to public. ^PB (2/2),Delivery Date / Shipping,Account / Contact Support,False
+@186218 Please don't provide your order details as we consider it personal information. Our twitter page is visible to public.(2/2) ^CB,Delivery Date / Shipping,Account / Contact Support,False
+"@496690 Thank you for confirming, Ben! Please keep us posted on how the chat goes. We're here for you! ^FD",Return / Refund,Product / Device Support,False
+@722948 Apologies for the delivery of the defective product. I’d like to help you. Please share your details here: https://t.co/beaaDm0muc and we’ll contact you soon. ^JS,Delivery Date / Shipping,Damaged / Defective Product,False
+@190898 That's quite a remark. Could you please tell us what went wrong so we can help you?,Delivery Date / Shipping,Product / Device Support,False
+@172502 Could you please specify which show are you concerned about? ^HR,Delivery Date / Shipping,Account / Contact Support,False
+"@386592 Let's look into available options together, Sam! Please reach us by phone or chat here: https://t.co/JzP7hlA23B ^AB",Return / Refund,Product / Device Support,False
+@170230 No problem - let us know if you have any further issues ^TD,Return / Refund,Product / Device Support,False
+@442795 We've received your details and will get back to you with an update at the earliest. ^AU,Return / Refund,Late / Missing Delivery,False
+@299660 Comprendo. ¿Qué opciones te indicaron nuestros compañeros de Soporte al Cliente? ^DA,Damaged / Defective Product,Product / Device Support,False
+"@320551 El placer de tenerte como cliente es todo nuestro ❤️. Cuéntanos, ¿qué compraste? ^AZ https://t.co/OEnFyXGg0F",Damaged / Defective Product,Product / Device Support,False
+@463004 I'm sorry for any inconvenience. Could you tell us more about the issue at hand? ^GM,Damaged / Defective Product,Late / Missing Delivery,False
+@322582 Dann melde dich bitte mal bei unseren Kollegen: https://t.co/MBAcWSvzBH  ^SK,Product / Device Support,Product / Device Support,True
+@702037 Please reach out to us using the link provided and we'll be glad to investigate this further: https://t.co/hApLpMlfHN ^FJ,Product / Device Support,Product / Device Support,True
+@358641 So sorry your order was damaged! Let's see what additional options we have to get this sorted here: https://t.co/Zm7a791vFm ^JZ,Damaged / Defective Product,Damaged / Defective Product,True
+"@187653 When asking which domain, we are referring to which site you used to purchase. Such as, .com, .co.uk., .ca ^AG",Account / Contact Support,Product / Device Support,False
+"@191865 We'd like to have a specialist look into this, please send us more details here: https://t.co/VhAZAd1agL^CO",Product / Device Support,Product / Device Support,True
+@683076 We've received your details and we'll reach out to you soon. ^GK,Account / Contact Support,Account / Contact Support,True
+@329208 I've just checked and we've received your details. Please allow us some time and we'll reach out to you. ^KA,Late / Missing Delivery,Late / Missing Delivery,True
+@274935 here: https://t.co/2t6DQoUmNZ we'll reach out to you soon. 2/2^AP,Late / Missing Delivery,Product / Device Support,False
+"@806019 En effet, en cas d'absence le colis peut être remis à votre entourage afin que vous le receviez plus rapidement, vous trouverez cette information mentionnée ici : https://t.co/g4IQwmWkZd.
+^KE",Order Tracking / Status,Product / Device Support,False
+@385929 Have you reached out to the carrier directly? ^RS,Return / Refund,Delivery Date / Shipping,False
+"@281472 Please don't provide your details, as we consider it to be personal information. Our Twitter page is visible to the public. ^AM",Delivery Date / Shipping,Late / Missing Delivery,False
+@351390 Quand est-ce que l'enquête a été ouverte? ^SM,Delivery Date / Shipping,Product / Device Support,False
+"@442784 Hey, sorry to hear. When did you purchase the book? Was the book purchased via a seller or from Amazon directly? ^TP",Return / Refund,Product / Device Support,False
+@131416 What was advised?^CN,Product / Device Support,Product / Device Support,True
+"@650856 Thanks for clarifying, Scott! Please share the number w/ us given in the email so we can review upon contacting us here: https://t.co/zYVX1Qi29G so we can help review your best options. ^TM",Return / Refund,Account / Contact Support,False
+"@245190 I'm sorry, seems like we haven't received your details yet. Kindly drop in your information again through the link provided earlier and we'll reach out to you at the earliest. Appreciate your understanding. ^EM",Return / Refund,Late / Missing Delivery,False
+@652213 We'd like to look into this for you. Please send us your information and additional details at: https://t.co/2qEWRIIxHY ^LI,Return / Refund,Product / Device Support,False
+"@118925 Late order usually arrive the next business day. If your order hasn't arrived by 8:00 PM tomorrow, please let us know. ^LR",Return / Refund,Late / Missing Delivery,False
+@189994 you add the item to your cart from the product detail page.A timer will show how long you have to claim the discount. 2/2^EM,Delivery Date / Shipping,Product / Device Support,False
+"@533146 We're still here for you! Please, reach us via phone/chat to explore options together: https://t.co/hApLpMlfHN ^JE",Delivery Date / Shipping,Product / Device Support,False
+@183303 Amazon is a marketplace for sellers and buyers. All After sales services (warranty and repairs) are handled (2/3) ^VM,Late / Missing Delivery,Product / Device Support,False
+@233041 Please don’t provide your order details as it is personal information. Our page is visible to the public.2/2^HN,Order Tracking / Status,Late / Missing Delivery,False
+@515222 You're welcome! Please let us know if we may further assist.  We're here to help where we can. ^KL,Order Tracking / Status,Product / Device Support,False
+"@482501 Je n'en ai jamais entendu parlé 😶 Me conseillez-vous de le lire ? 
+^ARC",Order Tracking / Status,Product / Device Support,False
+"@174500 Thanks for letting us know, Ron. Keep us posted if your order does not arrive today as per the tracking.^TI",Late / Missing Delivery,Order Tracking / Status,False
+@738484 We'd like to look into this with you but we're not able to access your membership details from Twitter. Please contact us via phone or chat here: https://t.co/JzP7hlA23B ^KH,Delivery Date / Shipping,Account / Contact Support,False
+"@810149 Oh no! Have you had a customer service issue? Without giving account details, please tell us more about your situation. We'd love to help. ^BE",Damaged / Defective Product,Account / Contact Support,False
+"@483870 Meld dich doch einfach mal direkt bei uns, im Amazon.de Social Media Team, und wir schauen uns das an: https://t.co/br7bhrlJn8 ^DW",Account / Contact Support,Product / Device Support,False
+"@745480 I'm sorry for the troubles! You can view the info about return shipping here: https://t.co/qY0XsAzwpU
+Hope this helps! ^LL",Product / Device Support,Return / Refund,False
+"@192640 Sorry for the delay. However, the glitch has been rectified. Thank you once again for bringing this to our notice. ^PR",Product / Device Support,Late / Missing Delivery,False
+@518718 とんでもないことでございます。今後も万が一ご不安なことがございましたら、ご遠慮なくお知らせください。 YM,Product / Device Support,Product / Device Support,True
+"@672192 What Amazon website do you have your book on? UK, US, FR etc ^MC",Damaged / Defective Product,Product / Device Support,False
+@504352 We have made a note of your comments and shared them internally. We will certainly work on it to improve your shopping experience. ^CB,Damaged / Defective Product,Product / Device Support,False
+@242299 Sorry to hear that. Can I ask if you've reported these issues to us so that we could look in to it?^TI,Return / Refund,Product / Device Support,False
+"@151164 Apologies, do you have unattended delivery preferences set on your account: https://t.co/EhJSNJJuZb? ^JJ",Delivery Date / Shipping,Account / Contact Support,False
+"@357234 I'd like for a member of my team to personally address this. Please, provide details here: https://t.co/LcyklqNTYe ^JE",Delivery Date / Shipping,Account / Contact Support,False
+"@413729 I'm sorry to hear that, Hemant. Please fill this form: https://t.co/beaaDm0muc and We’ll contact you soon. ^BA",Delivery Date / Shipping,Account / Contact Support,False
+@441968 Apologies for the ordeal. Please fill this form: https://t.co/beaaDm0muc and we’ll check and reach out to you soon. ^SS,Delivery Date / Shipping,Product / Device Support,False
+@753510 2/2 Puedes contactarlos mediante este enlace: https://t.co/OjvUxwnzPe. ^DA,Late / Missing Delivery,Product / Device Support,False
+"@225145 We are still here for you! Without giving any personal/account info, can you please tell us a little about the issue you are facing? ^BA",Order Tracking / Status,Account / Contact Support,False
+@163715 Oh no! Use these steps to create a pre-paid return label: https://t.co/tv0MHd6rQy Let us know if you have further questions! ^KN,Order Tracking / Status,Return / Refund,False
+@206718 we have happened to miss the estimated delivery date? 2/2 ^SB,Late / Missing Delivery,Delivery Date / Shipping,False
+@124169 Please provide your phone number w/ us here: https://t.co/OW4c4eicZd &amp; select the 'Call me now' option to connect w/ an agent. ^KP,Order Tracking / Status,Product / Device Support,False
+"@283957 Bonjour, désolée pour cela 😓 Quel est le transporteur de votre colis je vous prie ? ^MA",Late / Missing Delivery,Product / Device Support,False
+@125706 You should've received an email in response to the details you shared earlier from the social media team. Kindly reply to it for further queries and we'll assist you. ^NR,Delivery Date / Shipping,Account / Contact Support,False
+"@232597 I get your disappointment, Anurag. We have responded to your query here: https://t.co/vjZJ2zABIF. Request you to check. ^NK",Delivery Date / Shipping,Product / Device Support,False
+"@318514 Hi Dan, do you have your payment methods shared on the accounts? -Agi",Return / Refund,Account / Contact Support,False
+"@269147 That's strange, allow us to take a closer look on this by sharing your details here: https://t.co/cllwXc2HeK. As soon as we receive the details, we'll check and reach out to you with an update.
+
+Krishna | Amazon Customer Service",Return / Refund,Account / Contact Support,False
+@124142 We'd like to take a better look at this with you. Please reach out to us via phone/chat here: https://t.co/hApLpMlfHN ^KP,Product / Device Support,Product / Device Support,True
+"@330413 Je suis désolé, avez-vous signalé cela à notre SAV?
+^YL",Account / Contact Support,Product / Device Support,False
+"@286224 Hi Paige, sorry to hear that. Can I ask which Amazon site you ordered the card from (.com / .co.uk / etc)?^TI",Product / Device Support,Product / Device Support,True
+@180290 This is not what we expect! I'm sorry you received an incomplete set. We'd like to help you review available options here: https://t.co/3EJduWuar8 ^FD,Product / Device Support,Product / Device Support,True
+"@179072 Please don't provide your order details, we consider it to be personal information. Our page is visible to the public. (2/2) ^VR",Damaged / Defective Product,Late / Missing Delivery,False
+@146915 Kindly connect with our support team here: https://t.co/eSItkOtvNd and we'll get this checked for you. ^PB,Return / Refund,Product / Device Support,False
+@385283 Have you received any additional information from the CreateSpace team yet? ^SW,Return / Refund,Late / Missing Delivery,False
+"@634824 ATMでのお支払方法についてはこちらのヘルプページの「ATMで支払う」をご参照ください。Pay-easy（ペイジー）ロゴがあるATMでお支払いいただけます。
+https://t.co/N1feN5IjK3 ET https://t.co/ozr4E8MJdP",Delivery Date / Shipping,Product / Device Support,False
+@804496 What is the tracking information showing currently? You can find that here:  https://t.co/aaDyEz1VgE,Return / Refund,Order Tracking / Status,False
+"@249440 I'm sorry to hear about the delivery trouble. If you are currently waiting on an order, we'd like to help! Have you received an updated delivery date for the orders? ^MB",Delivery Date / Shipping,Delivery Date / Shipping,True
+@687014 I understand your concern. Could you please confirm sharing your details through the secure link provided earlier? ^AP,Late / Missing Delivery,Account / Contact Support,False
+"@138648 Without sharing personal account details, can you tell us a bit more about what happened? ^VS",Late / Missing Delivery,Account / Contact Support,False
+"@721324 I'm sorry about the experience you had with our support team. Kindly drop in your details here: https://t.co/beaaDm0muc and we'll help. Also, please don't provide your order details, as we consider them to be personal info. Our page is visible to the public. ^GK",Order Tracking / Status,Account / Contact Support,False
+"@317123 If you have filed in the details in the link provided by 'PS', you'll receive a correspondence from our team.(1/2)^SF",Late / Missing Delivery,Account / Contact Support,False
+@504351 Kindly refer the link: https://t.co/Lxmi5Fdk9D for more information. (2/2) ^MO,Late / Missing Delivery,Product / Device Support,False
+@202707 Can you tell us more about what happens when they fail and which apps are failing? We'd like to help. ^KH,Return / Refund,Product / Device Support,False
+"@151409 We are confident, our support team will do the needful. Do keep us posted for further support. ^CB",Damaged / Defective Product,Product / Device Support,False
+"@807453 I'm sorry you never received the offer! We'd like to look into this with you, can you please reach out to us by phone at this link here: https://t.co/hApLpMlfHN ^VS",Product / Device Support,Late / Missing Delivery,False
+"@446711 Vous pouvez contacter notre SAV en cliquant sur le lien suivant : https://t.co/qzuu0dgDXz
+^MD",Account / Contact Support,Account / Contact Support,True
+"@322920 I get you disappointment, Priyansh. You must have received an email correspondence from the social media team.  1/2 ^NK",Return / Refund,Account / Contact Support,False
+"@130233 Grafo, aparte del correo de confirmación, recuerda que puedes verificar tu pedido en la sección de pedidos de tu cuenta, por favor utiliza este enlace: https://t.co/Agd9XY4LHC
+^CB",Return / Refund,Product / Device Support,False
+@337086 I get your concern. Please reply to the email from social media specialist for further help. ^HA,Return / Refund,Account / Contact Support,False
+@232603 Thank you for bringing this to our notice. I'll be sure to pass this on internally to the concerned team for rectification. ^GD,Return / Refund,Product / Device Support,False
+"@713393 ¿Has reportado tu problema con @132703? Si no recibes respuesta, no dudes en contactarnos de nuevo. ^CR",Delivery Date / Shipping,Account / Contact Support,False
+"@801896 When you spoke with us, what was advised regarding this order? Did we offer to contact the courier with you for more information? ^LB",Late / Missing Delivery,Account / Contact Support,False
+"@350165 Kindly check the latest correspondence we sent to your registered account and respond to it, we'll reach out to you soon. ^MA",Delivery Date / Shipping,Account / Contact Support,False
+@750624 Okay thanks for checking- Can you contact us directly regarding this via: https://t.co/JzP7hlA23B ^NV,Order Tracking / Status,Account / Contact Support,False
+"@636750 Sorry for the trouble with the delivery. We'd like to have a closer look, kindly drop in your details 1/2 ^EM",Order Tracking / Status,Delivery Date / Shipping,False
+"@740898 Apologies for the unpleasant experience. We certainly did not expect this to happen. However, please be assured that our team will get back to you with a resolution at the earliest. Also, I've noted this as a feedback and forwarded it internally for a review. ^BV",Order Tracking / Status,Product / Device Support,False
+@200294 I'm sorry for any frustration. This will not work. Amazon digital content can only be shared with another in the same country. ^BT,Late / Missing Delivery,Product / Device Support,False
+"@442785 Thanks for reaching out! If you have a moment, please use this link: https://t.co/1Q4mVFIH3f to contact our Amazon Author Central Team, to discuss available option with you. ^LH",Order Tracking / Status,Account / Contact Support,False
+"@431896 Thank you for keeping us posted, Rashmi. We will get back to you at the earliest. ^KS",Delivery Date / Shipping,Return / Refund,False
+@478415 Hello! Please make sure to check your DMs response for your original request for assistance. ^RM,Delivery Date / Shipping,Product / Device Support,False
+"@233671 It looks like she is in transit and not lost--just taking her time to reach you. Hopefully, she will arrive safely and soon. Of course, if we've missed our Prime promise, you can reach out to us here for options: https://t.co/hApLpMlfHN  Please keep us posted.  ^SE",Return / Refund,Delivery Date / Shipping,False
+@383919 Did we happen to miss the estimated delivery date on your order? (1/2)^SF,Product / Device Support,Delivery Date / Shipping,False
+@485649 Kindly reply your concern to the email that you received from our Social Media Team and we'll get back to you with a resolution. ^AU,Product / Device Support,Account / Contact Support,False
+@479948 We've responded to your query via DM. Kindly check. ^PS,Product / Device Support,Account / Contact Support,False
+"@774776 La Black Friday Week, c'est maintenant et jusqu'au vendredi 24 novembre 2017 ; vous avez la possibilité de voir les offres en cours et suivre les offres à venir en cliquant sur la case dédiée dans le lien suivant : https://t.co/Db6jkVAXma. ^ASZ",Damaged / Defective Product,Product / Device Support,False
+"@763799 Bonjour Gregory, l'avez-vous signalé à notre SAV ? ^SM",Damaged / Defective Product,Product / Device Support,False
+"@221860 Did you click the link provided by my colleague ^SK? If you have done so and sent us your details, please check your email inbox and spam folders to see if a reply has been received.^BZ",Return / Refund,Account / Contact Support,False
+@199982 We'd like to check that for you. Get in touch here: https://t.co/hApLpMlfHN and we'll be happy to help. ^RS,Return / Refund,Product / Device Support,False
+@391445 I'm sorry it hasn't arrived yet. Who is the carrier and what does the latest tracking update show: https://t.co/3CmPtTUmsi? ^MB,Delivery Date / Shipping,Late / Missing Delivery,False
+"@524872 I'm so sorry for the poor experience, Lauren. Please give feedback via the e-mail survey so leadership can look into it.^WJ",Delivery Date / Shipping,Product / Device Support,False
+@322918 I'm sorry to know about that. Please reach out to us here: https://t.co/vlvfJr4nN9 we'd like to help. ^SG,Late / Missing Delivery,Product / Device Support,False
+"@276620 My apologies! When you chatted with us, what options or insight did we give you for your order? ^DW",Late / Missing Delivery,Account / Contact Support,False
+@161033 We already sent you a direct message. ^SK,Late / Missing Delivery,Account / Contact Support,False
+"@144968 The resolution provided in the email is the best we could offer. Further, we won't be able to provide any insight or action on this matter. ^PS",Order Tracking / Status,Account / Contact Support,False
+"@561217 Once e-mailed, the seller will reply to you within 48 business hours. Keep us posted. ^AX",Late / Missing Delivery,Account / Contact Support,False
+"@414365 Hey Malcolm! Happy to hear your order has arrived! 😝 Have you placed an order for the VR headset already, and the estimated delivery date is showing as unknown or currently unavailable? Let me know! ^JC",Damaged / Defective Product,Delivery Date / Shipping,False
+"@269124 Oi Lais, sinto muito pelo acontecido com seu pedido, já verificou nossa política de devoluções? https://t.co/AzDXHl68Na ^VL",Product / Device Support,Product / Device Support,True
