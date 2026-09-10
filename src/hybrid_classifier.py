@@ -1,56 +1,61 @@
 import pandas as pd
-import numpy as np
 from pathlib import Path
-import re
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-
 
 # ============================================================
-# Hiver SDE Assignment - Hybrid Intent Classifier
+# Hiver SDE Assignment - TF-IDF Intent Classifier
 # ============================================================
 #
-# Pipeline:
-# 1. TF-IDF + Logistic Regression
-# 2. Semantic similarity using SentenceTransformer
-# 3. Weighted hybrid scoring
-# 4. Lightweight high-precision intent guardrails
+# This classifier is a simple supervised baseline.
 #
 # IMPORTANT:
 # - training_data.csv is used for training
-# - golden_set.csv is NOT used here
-# - golden_set.csv is reserved for evaluation
+# - golden_set.csv is NOT used for training
+# - The golden set is reserved for evaluation
 # ============================================================
 
 
 # ------------------------------------------------------------
-# 1. Load historical training data
+# 1. Project paths
 # ------------------------------------------------------------
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 TRAIN_FILE = PROJECT_ROOT / "training_data.csv"
 
+
+# ------------------------------------------------------------
+# 2. Load training data
+# ------------------------------------------------------------
+
 if not TRAIN_FILE.exists():
+
     raise FileNotFoundError(
         f"training_data.csv not found at: {TRAIN_FILE}\n"
         "Place training_data.csv in the project root directory."
     )
 
 
-df = pd.read_csv(TRAIN_FILE)
+df = pd.read_csv(
+    TRAIN_FILE
+)
 
 
-# The prepared training file uses "text".
-# Rename it for consistency.
+# ------------------------------------------------------------
+# 3. Normalize column names
+# ------------------------------------------------------------
+
+# The prepared training file normally contains "text".
+# Convert it to "customer_message" for consistency.
+
 if (
     "customer_message" not in df.columns
     and "text" in df.columns
 ):
+
     df = df.rename(
         columns={
             "text": "customer_message"
@@ -59,7 +64,7 @@ if (
 
 
 # ------------------------------------------------------------
-# Check required columns
+# 4. Validate columns
 # ------------------------------------------------------------
 
 required_columns = [
@@ -76,14 +81,17 @@ missing_columns = [
 
 
 if missing_columns:
+
     raise ValueError(
-        f"Missing required columns: {missing_columns}\n"
-        f"Available columns: {list(df.columns)}"
+        f"Missing required columns: "
+        f"{missing_columns}\n"
+        f"Available columns: "
+        f"{list(df.columns)}"
     )
 
 
 # ------------------------------------------------------------
-# Clean training data
+# 5. Clean training data
 # ------------------------------------------------------------
 
 df = df.dropna(
@@ -108,6 +116,8 @@ df["intent"] = (
 )
 
 
+# Remove empty rows
+
 df = df[
     (df["customer_message"] != "")
     &
@@ -116,19 +126,27 @@ df = df[
 
 
 # ------------------------------------------------------------
-# Display dataset information
+# 6. Display training information
 # ------------------------------------------------------------
 
 print("=" * 65)
-print("HIVER SDE ASSIGNMENT - HYBRID INTENT CLASSIFIER")
-print("=" * 65)
 
 print(
-    f"\nTraining examples: {len(df)}"
+    "HIVER SDE ASSIGNMENT - TF-IDF INTENT CLASSIFIER"
 )
 
+print("=" * 65)
+
+
 print(
-    f"Intents: {df['intent'].nunique()}"
+    f"\nTraining examples: "
+    f"{len(df)}"
+)
+
+
+print(
+    f"Number of intents: "
+    f"{df['intent'].nunique()}"
 )
 
 
@@ -137,15 +155,22 @@ labels = sorted(
 )
 
 
-print("\nIntents:")
+print(
+    "\nIntents:"
+)
+
 
 for label in labels:
+
     print(
         f"- {label}"
     )
 
 
-print("\nIntent distribution:")
+print(
+    "\nIntent distribution:"
+)
+
 
 print(
     df["intent"].value_counts()
@@ -153,7 +178,7 @@ print(
 
 
 # ============================================================
-# 2. TF-IDF + Logistic Regression
+# 7. TF-IDF feature extraction
 # ============================================================
 
 print(
@@ -161,7 +186,7 @@ print(
 )
 
 print(
-    "TRAINING TF-IDF + LOGISTIC REGRESSION"
+    "CREATING TF-IDF FEATURES"
 )
 
 print(
@@ -169,342 +194,94 @@ print(
 )
 
 
-tfidf = TfidfVectorizer(
+vectorizer = TfidfVectorizer(
+
     lowercase=True,
-    ngram_range=(1, 2),
+
+    ngram_range=(
+        1,
+        2
+    ),
+
     min_df=2,
+
     max_features=30000,
+
     sublinear_tf=True
 )
 
 
-X_tfidf = tfidf.fit_transform(
+X = vectorizer.fit_transform(
     df["customer_message"]
 )
 
 
-tfidf_model = LogisticRegression(
+print(
+    "TF-IDF features created successfully."
+)
+
+
+print(
+    f"Feature matrix shape: "
+    f"{X.shape}"
+)
+
+
+# ============================================================
+# 8. Logistic Regression model
+# ============================================================
+
+print(
+    "\n" + "=" * 65
+)
+
+print(
+    "TRAINING LOGISTIC REGRESSION"
+)
+
+print(
+    "=" * 65
+)
+
+
+model = LogisticRegression(
+
     max_iter=1000,
+
     class_weight="balanced"
 )
 
 
-tfidf_model.fit(
-    X_tfidf,
+model.fit(
+    X,
     df["intent"]
 )
 
 
 print(
-    "TF-IDF model trained successfully."
+    "Logistic Regression model trained successfully."
 )
 
 
 # ============================================================
-# 3. Semantic Embeddings
+# 9. Prediction function
 # ============================================================
 
-print(
-    "\n" + "=" * 65
-)
-
-print(
-    "LOADING SEMANTIC MODEL"
-)
-
-print(
-    "=" * 65
-)
-
-
-semantic_model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
-
-
-print(
-    "Creating semantic embeddings..."
-)
-
-
-embeddings = semantic_model.encode(
-    df["customer_message"].tolist(),
-    batch_size=32,
-    show_progress_bar=True,
-    normalize_embeddings=True
-)
-
-
-print(
-    "Semantic embeddings created."
-)
-
-
-print(
-    f"Embedding count: {len(embeddings)}"
-)
-
-
-# ============================================================
-# 4. Text normalization
-# ============================================================
-
-def normalize_message(message):
+def predict_intent(message):
     """
-    Normalize a customer message for lightweight
-    rule-based guardrails.
+    Predict the intent of a customer message.
+
+    Returns:
+
+    {
+        "intent": predicted intent,
+        "confidence": probability of predicted intent
+    }
     """
 
-    message = str(message).lower().strip()
-
-    # Replace punctuation with spaces
-    message = re.sub(
-        r"[^a-z0-9\s]",
-        " ",
+    message = str(
         message
-    )
-
-    # Collapse repeated spaces
-    message = re.sub(
-        r"\s+",
-        " ",
-        message
-    )
-
-    return message
-
-
-# ============================================================
-# 5. Intent guardrails
-# ============================================================
-
-def apply_intent_guardrails(
-    message,
-    hybrid_intent,
-    hybrid_confidence
-):
-    """
-    Apply small high-precision rules after the
-    statistical hybrid classifier.
-
-    These rules are intentionally conservative.
-
-    Priority:
-
-    1. Late / Missing Delivery
-    2. Order Tracking / Status
-
-    This prevents common tracking phrases from
-    overriding explicit late/missing delivery signals.
-    """
-
-    text = normalize_message(
-        message
-    )
-
-
-    # --------------------------------------------------------
-    # Late / Missing Delivery
-    # --------------------------------------------------------
-    #
-    # Explicit delay/missing language should take priority
-    # over generic tracking language.
-    # --------------------------------------------------------
-
-    late_patterns = [
-
-        r"\blate\b",
-
-        r"\bdelayed\b",
-
-        r"\bdelay\b",
-
-        r"\bstill waiting\b",
-
-        r"\bstill haven t received\b",
-
-        r"\bstill have not received\b",
-
-        r"\bnot arrived\b",
-
-        r"\bhas not arrived\b",
-
-        r"\bhasnt arrived\b",
-
-        r"\bhasn't arrived\b",
-
-        r"\bnever arrived\b",
-
-        r"\bnot received\b",
-
-        r"\bnot been received\b",
-
-        r"\bmissing package\b",
-
-        r"\bmissing order\b",
-
-        r"\bmissing shipment\b",
-
-        r"\bwhere is my package\b.*\bnot\b",
-
-        r"\border is overdue\b",
-
-        r"\bdelivery is overdue\b",
-
-        r"\boverdue delivery\b",
-
-        r"\bpast the delivery date\b",
-
-        r"\bshould have arrived\b",
-
-        r"\bsupposed to arrive\b.*\bbut\b"
-    ]
-
-
-    late_signal = any(
-        re.search(
-            pattern,
-            text
-        )
-        for pattern in late_patterns
-    )
-
-
-    if late_signal:
-
-        return (
-            "Late / Missing Delivery",
-            max(
-                hybrid_confidence,
-                0.75
-            )
-        )
-
-
-    # --------------------------------------------------------
-    # Order Tracking / Status
-    # --------------------------------------------------------
-    #
-    # These are high-precision tracking/status expressions.
-    # --------------------------------------------------------
-
-    tracking_patterns = [
-
-        r"\btrack my order\b",
-
-        r"\btrack my package\b",
-
-        r"\btrack my shipment\b",
-
-        r"\btrack the order\b",
-
-        r"\btrack the package\b",
-
-        r"\btrack the shipment\b",
-
-        r"\btracking number\b",
-
-        r"\btracking link\b",
-
-        r"\btracking information\b",
-
-        r"\btracking info\b",
-
-        r"\bwhere is my order\b",
-
-        r"\bwhere is my package\b",
-
-        r"\bwhere is my shipment\b",
-
-        r"\bwhere s my order\b",
-
-        r"\bwhere s my package\b",
-
-        r"\bwhere s my shipment\b",
-
-        r"\border status\b",
-
-        r"\bpackage status\b",
-
-        r"\bshipment status\b",
-
-        r"\bcheck my order status\b",
-
-        r"\bcheck the order status\b",
-
-        r"\bcheck my package status\b",
-
-        r"\bcheck shipment status\b",
-
-        r"\bstatus of my order\b",
-
-        r"\bstatus of my package\b",
-
-        r"\bstatus of my shipment\b",
-
-        r"\bhas my order shipped\b",
-
-        r"\bhas my package shipped\b",
-
-        r"\bhas my shipment shipped\b",
-
-        r"\bwhere can i track\b",
-
-        r"\bhow can i track\b",
-
-        r"\bcan i track\b",
-
-        r"\btrack an order\b",
-
-        r"\btrack an item\b"
-    ]
-
-
-    tracking_signal = any(
-        re.search(
-            pattern,
-            text
-        )
-        for pattern in tracking_patterns
-    )
-
-
-    if tracking_signal:
-
-        return (
-            "Order Tracking / Status",
-            max(
-                hybrid_confidence,
-                0.75
-            )
-        )
-
-
-    # --------------------------------------------------------
-    # No guardrail triggered
-    # --------------------------------------------------------
-
-    return (
-        hybrid_intent,
-        hybrid_confidence
-    )
-
-
-# ============================================================
-# 6. Hybrid Prediction
-# ============================================================
-
-def hybrid_predict(message):
-    """
-    Predict customer intent using:
-
-    1. TF-IDF + Logistic Regression
-    2. Semantic similarity
-    3. Weighted hybrid scoring
-    4. Conservative intent guardrails
-    """
-
-    message = str(message).strip()
+    ).strip()
 
 
     # --------------------------------------------------------
@@ -515,253 +292,132 @@ def hybrid_predict(message):
 
         return {
             "intent": "Unknown",
-
-            "confidence": 0.0,
-
-            "tfidf_intent": "Unknown",
-
-            "tfidf_confidence": 0.0,
-
-            "semantic_intent": "Unknown",
-
-            "semantic_confidence": 0.0
+            "confidence": 0.0
         }
 
 
-    # ========================================================
-    # TF-IDF prediction
-    # ========================================================
+    # --------------------------------------------------------
+    # Transform input using the fitted TF-IDF vectorizer
+    # --------------------------------------------------------
 
-    tfidf_vector = tfidf.transform(
+    message_vector = vectorizer.transform(
         [message]
     )
 
 
-    tfidf_probabilities = (
-        tfidf_model.predict_proba(
-            tfidf_vector
-        )[0]
-    )
+    # --------------------------------------------------------
+    # Predict probabilities
+    # --------------------------------------------------------
 
-
-    tfidf_index = np.argmax(
-        tfidf_probabilities
-    )
-
-
-    tfidf_intent = (
-        tfidf_model.classes_[
-            tfidf_index
-        ]
-    )
-
-
-    tfidf_confidence = float(
-        tfidf_probabilities[
-            tfidf_index
-        ]
-    )
-
-
-    # ========================================================
-    # Semantic prediction
-    # ========================================================
-
-    message_embedding = semantic_model.encode(
-        [message],
-        normalize_embeddings=True
-    )
-
-
-    similarities = cosine_similarity(
-        message_embedding,
-        embeddings
+    probabilities = model.predict_proba(
+        message_vector
     )[0]
 
 
-    # Top 5 semantically similar examples
-    top_indices = np.argsort(
-        similarities
-    )[::-1][:5]
+    # Find highest probability
+
+    best_index = probabilities.argmax()
 
 
-    semantic_scores = {}
-
-
-    for index in top_indices:
-
-        intent = df.iloc[
-            index
-        ]["intent"]
-
-
-        similarity = float(
-            similarities[index]
-        )
-
-
-        if intent not in semantic_scores:
-
-            semantic_scores[
-                intent
-            ] = 0.0
-
-
-        semantic_scores[
-            intent
-        ] += similarity
-
-
-    # --------------------------------------------------------
-    # Best semantic intent
-    # --------------------------------------------------------
-
-    semantic_intent = max(
-        semantic_scores,
-        key=semantic_scores.get
+    predicted_intent = (
+        model.classes_[best_index]
     )
 
 
-    semantic_confidence = float(
-        similarities[
-            top_indices[0]
-        ]
+    confidence = float(
+        probabilities[best_index]
     )
 
-
-    # ========================================================
-    # Hybrid scoring
-    # ========================================================
-
-    hybrid_scores = {}
-
-
-    for label in labels:
-
-        # ----------------------------------------------------
-        # TF-IDF probability
-        # ----------------------------------------------------
-
-        class_index = list(
-            tfidf_model.classes_
-        ).index(label)
-
-
-        tfidf_score = float(
-            tfidf_probabilities[
-                class_index
-            ]
-        )
-
-
-        # ----------------------------------------------------
-        # Semantic score
-        # ----------------------------------------------------
-
-        semantic_score = (
-            semantic_scores.get(
-                label,
-                0.0
-            )
-        )
-
-
-        # Normalize because up to five
-        # semantic examples contribute.
-        semantic_score = (
-            semantic_score / 5.0
-        )
-
-
-        # ----------------------------------------------------
-        # Weighted hybrid score
-        # ----------------------------------------------------
-
-        hybrid_scores[
-            label
-        ] = (
-            0.55 * tfidf_score
-            +
-            0.45 * semantic_score
-        )
-
-
-    # --------------------------------------------------------
-    # Raw hybrid prediction
-    # --------------------------------------------------------
-
-    raw_hybrid_intent = max(
-        hybrid_scores,
-        key=hybrid_scores.get
-    )
-
-
-    raw_confidence = (
-        hybrid_scores[
-            raw_hybrid_intent
-        ]
-    )
-
-
-    raw_confidence = float(
-        min(
-            max(
-                raw_confidence,
-                0.0
-            ),
-            1.0
-        )
-    )
-
-
-    # ========================================================
-    # Apply guardrails
-    # ========================================================
-
-    final_intent, final_confidence = (
-        apply_intent_guardrails(
-            message=message,
-            hybrid_intent=raw_hybrid_intent,
-            hybrid_confidence=raw_confidence
-        )
-    )
-
-
-    # ========================================================
-    # Final result
-    # ========================================================
 
     return {
 
         "intent":
-            final_intent,
+            predicted_intent,
 
         "confidence":
-            final_confidence,
-
-        "tfidf_intent":
-            tfidf_intent,
-
-        "tfidf_confidence":
-            tfidf_confidence,
-
-        "semantic_intent":
-            semantic_intent,
-
-        "semantic_confidence":
-            semantic_confidence
+            confidence
     }
 
 
 # ============================================================
-# 7. Test Examples
+# 10. Detailed prediction
+# ============================================================
+
+def predict_with_details(message):
+    """
+    Return the predicted intent together with
+    the probability assigned to every intent.
+    """
+
+    message = str(
+        message
+    ).strip()
+
+
+    if not message:
+
+        return {
+            "intent": "Unknown",
+            "confidence": 0.0,
+            "probabilities": {}
+        }
+
+
+    message_vector = vectorizer.transform(
+        [message]
+    )
+
+
+    probabilities = model.predict_proba(
+        message_vector
+    )[0]
+
+
+    best_index = probabilities.argmax()
+
+
+    predicted_intent = (
+        model.classes_[best_index]
+    )
+
+
+    confidence = float(
+        probabilities[best_index]
+    )
+
+
+    probability_dict = {
+
+        label: float(
+            probability
+        )
+
+        for label, probability
+        in zip(
+            model.classes_,
+            probabilities
+        )
+    }
+
+
+    return {
+
+        "intent":
+            predicted_intent,
+
+        "confidence":
+            confidence,
+
+        "probabilities":
+            probability_dict
+    }
+
+
+# ============================================================
+# 11. Test examples
 # ============================================================
 
 def run_tests():
-    """
-    Run predefined examples to verify
-    the classifier and guardrails.
-    """
 
     test_messages = [
 
@@ -794,7 +450,7 @@ def run_tests():
     )
 
     print(
-        "HYBRID MODEL TEST"
+        "TF-IDF MODEL TEST"
     )
 
     print(
@@ -804,7 +460,7 @@ def run_tests():
 
     for message in test_messages:
 
-        result = hybrid_predict(
+        result = predict_intent(
             message
         )
 
@@ -819,7 +475,7 @@ def run_tests():
 
 
         print(
-            "\nHybrid prediction:"
+            "\nPredicted intent:"
         )
 
         print(
@@ -828,22 +484,8 @@ def run_tests():
 
 
         print(
-            f"Hybrid confidence: "
+            f"Confidence: "
             f"{result['confidence']:.4f}"
-        )
-
-
-        print(
-            f"TF-IDF prediction: "
-            f"{result['tfidf_intent']} "
-            f"({result['tfidf_confidence']:.4f})"
-        )
-
-
-        print(
-            f"Semantic prediction: "
-            f"{result['semantic_intent']} "
-            f"({result['semantic_confidence']:.4f})"
         )
 
 
@@ -853,20 +495,17 @@ def run_tests():
 
 
 # ============================================================
-# 8. Interactive Mode
+# 12. Interactive mode
 # ============================================================
 
 def interactive_mode():
-    """
-    Interactive customer-support intent prediction.
-    """
 
     print(
         "\n" + "=" * 65
     )
 
     print(
-        "INTERACTIVE HYBRID MODE"
+        "INTERACTIVE TF-IDF CLASSIFIER"
     )
 
     print(
@@ -919,7 +558,7 @@ def interactive_mode():
             continue
 
 
-        result = hybrid_predict(
+        result = predict_with_details(
             message
         )
 
@@ -934,51 +573,33 @@ def interactive_mode():
 
 
         print(
-            f"Hybrid confidence: "
+            f"Confidence: "
             f"{result['confidence']:.4f}"
         )
 
 
         print(
-            f"TF-IDF prediction: "
-            f"{result['tfidf_intent']} "
-            f"({result['tfidf_confidence']:.4f})"
+            "\nAll intent probabilities:"
         )
 
 
-        print(
-            f"Semantic prediction: "
-            f"{result['semantic_intent']} "
-            f"({result['semantic_confidence']:.4f})"
+        sorted_probabilities = sorted(
+
+            result["probabilities"].items(),
+
+            key=lambda item: item[1],
+
+            reverse=True
         )
 
 
-        print(
-            "\nDecision:"
-        )
-
-
-        if result["confidence"] >= 0.60:
+        for intent, probability in (
+            sorted_probabilities
+        ):
 
             print(
-                "AUTO-HANDLE"
-            )
-
-            print(
-                "Reason: "
-                "High-confidence intent prediction."
-            )
-
-        else:
-
-            print(
-                "ESCALATE"
-            )
-
-            print(
-                "Reason: "
-                "Low-confidence intent prediction; "
-                "human verification recommended."
+                f"{intent}: "
+                f"{probability:.4f}"
             )
 
 
@@ -988,7 +609,7 @@ def interactive_mode():
 
 
 # ============================================================
-# 9. Main Entry Point
+# 13. Main
 # ============================================================
 
 if __name__ == "__main__":
