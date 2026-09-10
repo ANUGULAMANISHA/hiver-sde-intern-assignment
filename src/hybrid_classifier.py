@@ -4,13 +4,21 @@ from pathlib import Path
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import normalize
 
 from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 
 
 # ============================================================
 # Hiver SDE Assignment - Hybrid Intent Classifier
+#
+# Hybrid approach:
+#   1. Word + character TF-IDF + Logistic Regression
+#   2. Semantic class-centroid similarity
+#   3. Weighted combination
+#
+# IMPORTANT:
+# The golden set is NEVER used for training.
 # ============================================================
 
 
@@ -18,44 +26,65 @@ from sklearn.metrics.pairwise import cosine_similarity
 # 1. Load historical training data
 # ------------------------------------------------------------
 
-# Project root is one level above src/
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 TRAIN_FILE = PROJECT_ROOT / "training_data.csv"
 
 if not TRAIN_FILE.exists():
+
     raise FileNotFoundError(
         f"training_data.csv not found at: {TRAIN_FILE}\n"
-        "Place training_data.csv in the project root directory."
+        "Place training_data.csv in the project root."
     )
 
-df = pd.read_csv(TRAIN_FILE)
+
+df = pd.read_csv(
+    TRAIN_FILE
+)
 
 
-# The prepared training file uses "text".
-# Rename it to "customer_message" for consistency.
-if "customer_message" not in df.columns and "text" in df.columns:
-    df = df.rename(columns={"text": "customer_message"})
+# The prepared dataset may use "text"
+if (
+    "customer_message" not in df.columns
+    and "text" in df.columns
+):
+
+    df = df.rename(
+        columns={
+            "text": "customer_message"
+        }
+    )
 
 
-# Check required columns
-required_columns = ["customer_message", "intent"]
-
-missing_columns = [
-    col for col in required_columns
-    if col not in df.columns
+required_columns = [
+    "customer_message",
+    "intent"
 ]
 
+
+missing_columns = [
+    column
+    for column in required_columns
+    if column not in df.columns
+]
+
+
 if missing_columns:
+
     raise ValueError(
-        f"Missing required columns: {missing_columns}\n"
-        f"Available columns: {list(df.columns)}"
+        f"Missing required columns: {missing_columns}"
     )
 
 
-# Remove empty rows
+# ------------------------------------------------------------
+# Clean training data
+# ------------------------------------------------------------
+
 df = df.dropna(
-    subset=["customer_message", "intent"]
+    subset=[
+        "customer_message",
+        "intent"
+    ]
 ).copy()
 
 
@@ -74,17 +103,10 @@ df["intent"] = (
 
 
 df = df[
-    (df["customer_message"] != "") &
+    (df["customer_message"] != "")
+    &
     (df["intent"] != "")
 ].copy()
-
-
-print("=" * 65)
-print("HIVER SDE ASSIGNMENT - HYBRID INTENT CLASSIFIER")
-print("=" * 65)
-
-print(f"\nTraining examples: {len(df)}")
-print(f"Intents: {df['intent'].nunique()}")
 
 
 labels = sorted(
@@ -92,61 +114,122 @@ labels = sorted(
 )
 
 
+print("=" * 70)
+print("HIVER SDE ASSIGNMENT - HYBRID INTENT CLASSIFIER")
+print("=" * 70)
+
+print(
+    f"\nTraining examples: {len(df)}"
+)
+
+print(
+    f"Intents: {len(labels)}"
+)
+
+
 print("\nIntents:")
 
 for label in labels:
-    print(f"- {label}")
+
+    print(
+        f"- {label}"
+    )
 
 
 print("\nIntent distribution:")
-print(df["intent"].value_counts())
+
+print(
+    df["intent"].value_counts()
+)
 
 
 # ============================================================
-# 2. TF-IDF + Logistic Regression
+# 2. Word-level TF-IDF
 # ============================================================
 
-print("\n" + "=" * 65)
-print("TRAINING TF-IDF + LOGISTIC REGRESSION")
-print("=" * 65)
+print("\n" + "=" * 70)
+print("TRAINING WORD TF-IDF MODEL")
+print("=" * 70)
 
 
-tfidf = TfidfVectorizer(
+word_tfidf = TfidfVectorizer(
     lowercase=True,
     ngram_range=(1, 2),
     min_df=2,
-    max_features=30000,
+    max_features=40000,
     sublinear_tf=True
 )
 
 
-X_tfidf = tfidf.fit_transform(
+X_word = word_tfidf.fit_transform(
     df["customer_message"]
 )
 
 
-tfidf_model = LogisticRegression(
-    max_iter=1000,
+word_model = LogisticRegression(
+    max_iter=1500,
     class_weight="balanced"
 )
 
 
-tfidf_model.fit(
-    X_tfidf,
+word_model.fit(
+    X_word,
     df["intent"]
 )
 
 
-print("TF-IDF model trained successfully.")
+print(
+    "Word TF-IDF model trained successfully."
+)
 
 
 # ============================================================
-# 3. Semantic Embeddings
+# 3. Character-level TF-IDF
 # ============================================================
 
-print("\n" + "=" * 65)
+print("\n" + "=" * 70)
+print("TRAINING CHARACTER TF-IDF MODEL")
+print("=" * 70)
+
+
+char_tfidf = TfidfVectorizer(
+    analyzer="char_wb",
+    ngram_range=(3, 5),
+    min_df=2,
+    max_features=50000,
+    sublinear_tf=True
+)
+
+
+X_char = char_tfidf.fit_transform(
+    df["customer_message"]
+)
+
+
+char_model = LogisticRegression(
+    max_iter=1500,
+    class_weight="balanced"
+)
+
+
+char_model.fit(
+    X_char,
+    df["intent"]
+)
+
+
+print(
+    "Character TF-IDF model trained successfully."
+)
+
+
+# ============================================================
+# 4. Semantic model
+# ============================================================
+
+print("\n" + "=" * 70)
 print("LOADING SEMANTIC MODEL")
-print("=" * 65)
+print("=" * 70)
 
 
 semantic_model = SentenceTransformer(
@@ -154,7 +237,9 @@ semantic_model = SentenceTransformer(
 )
 
 
-print("Creating semantic embeddings...")
+print(
+    "Creating semantic embeddings..."
+)
 
 
 embeddings = semantic_model.encode(
@@ -165,202 +250,410 @@ embeddings = semantic_model.encode(
 )
 
 
-print("Semantic embeddings created.")
-print(f"Embedding count: {len(embeddings)}")
+embeddings = np.asarray(
+    embeddings,
+    dtype="float32"
+)
+
+
+print(
+    "Semantic embeddings created."
+)
+
+
+print(
+    f"Embedding count: {len(embeddings)}"
+)
 
 
 # ============================================================
-# 4. Hybrid Prediction
+# 5. Create semantic class centroids
 # ============================================================
+
+print("\n" + "=" * 70)
+print("CREATING SEMANTIC INTENT PROTOTYPES")
+print("=" * 70)
+
+
+class_centroids = {}
+
+
+for label in labels:
+
+    label_mask = (
+        df["intent"].values
+        == label
+    )
+
+
+    label_embeddings = (
+        embeddings[label_mask]
+    )
+
+
+    centroid = (
+        label_embeddings.mean(
+            axis=0
+        )
+    )
+
+
+    centroid = centroid / (
+        np.linalg.norm(
+            centroid
+        )
+        + 1e-12
+    )
+
+
+    class_centroids[label] = (
+        centroid.astype("float32")
+    )
+
+
+print(
+    f"Created {len(class_centroids)} "
+    "semantic intent prototypes."
+)
+
+
+# ============================================================
+# 6. Prediction helpers
+# ============================================================
+
+def _softmax(values):
+
+    values = np.asarray(
+        values,
+        dtype=np.float64
+    )
+
+
+    values = values - np.max(
+        values
+    )
+
+
+    exp_values = np.exp(
+        values
+    )
+
+
+    return (
+        exp_values
+        / (
+            exp_values.sum()
+            + 1e-12
+        )
+    )
+
+
+# ------------------------------------------------------------
+# Hybrid prediction
+# ------------------------------------------------------------
 
 def hybrid_predict(message):
     """
-    Predict customer intent using:
+    Predict intent using three signals:
 
-    1. TF-IDF + Logistic Regression
-    2. Semantic similarity
-    3. Weighted hybrid scoring
+    1. Word TF-IDF probability
+    2. Character TF-IDF probability
+    3. Semantic similarity to intent centroids
+
+    Final weights:
+
+        40% word TF-IDF
+        25% character TF-IDF
+        35% semantic similarity
     """
 
-    message = str(message).strip()
+    message = str(
+        message
+    ).strip()
 
 
     if not message:
+
         return {
             "intent": "Unknown",
             "confidence": 0.0,
+
             "tfidf_intent": "Unknown",
             "tfidf_confidence": 0.0,
+
             "semantic_intent": "Unknown",
             "semantic_confidence": 0.0
         }
 
 
-    # --------------------------------------------------------
-    # TF-IDF prediction
-    # --------------------------------------------------------
+    # ========================================================
+    # Word TF-IDF
+    # ========================================================
 
-    tfidf_vector = tfidf.transform(
+    word_vector = word_tfidf.transform(
         [message]
     )
 
 
-    tfidf_probabilities = (
-        tfidf_model.predict_proba(
-            tfidf_vector
+    word_probabilities = (
+        word_model.predict_proba(
+            word_vector
         )[0]
     )
 
 
-    tfidf_index = np.argmax(
-        tfidf_probabilities
+    word_classes = (
+        word_model.classes_
     )
 
 
-    tfidf_intent = (
-        tfidf_model.classes_[tfidf_index]
+    word_best_index = int(
+        np.argmax(
+            word_probabilities
+        )
     )
 
 
-    tfidf_confidence = float(
-        tfidf_probabilities[tfidf_index]
+    word_intent = (
+        word_classes[word_best_index]
     )
 
 
-    # --------------------------------------------------------
-    # Semantic prediction
-    # --------------------------------------------------------
+    word_confidence = float(
+        word_probabilities[
+            word_best_index
+        ]
+    )
+
+
+    # ========================================================
+    # Character TF-IDF
+    # ========================================================
+
+    char_vector = char_tfidf.transform(
+        [message]
+    )
+
+
+    char_probabilities = (
+        char_model.predict_proba(
+            char_vector
+        )[0]
+    )
+
+
+    char_classes = (
+        char_model.classes_
+    )
+
+
+    # Make sure class ordering matches
+    # the common label ordering.
+    char_probability_map = {
+        label: float(
+            char_probabilities[
+                list(char_classes).index(
+                    label
+                )
+            ]
+        )
+        for label in labels
+    }
+
+
+    # ========================================================
+    # Combined lexical probabilities
+    # ========================================================
+
+    word_probability_map = {
+        label: float(
+            word_probabilities[
+                list(word_classes).index(
+                    label
+                )
+            ]
+        )
+        for label in labels
+    }
+
+
+    lexical_scores = {}
+
+
+    for label in labels:
+
+        lexical_scores[label] = (
+            0.60
+            * word_probability_map[label]
+            +
+            0.40
+            * char_probability_map[label]
+        )
+
+
+    # ========================================================
+    # Semantic centroid similarity
+    # ========================================================
 
     message_embedding = semantic_model.encode(
         [message],
         normalize_embeddings=True
-    )
-
-
-    similarities = cosine_similarity(
-        message_embedding,
-        embeddings
     )[0]
-
-
-    # Get top 5 similar historical examples
-    top_indices = np.argsort(
-        similarities
-    )[::-1][:5]
 
 
     semantic_scores = {}
 
 
-    for index in top_indices:
-
-        intent = df.iloc[index]["intent"]
+    for label in labels:
 
         similarity = float(
-            similarities[index]
+            np.dot(
+                message_embedding,
+                class_centroids[label]
+            )
         )
 
 
-        if intent not in semantic_scores:
-            semantic_scores[intent] = 0.0
+        semantic_scores[label] = similarity
 
 
-        semantic_scores[intent] += similarity
+    # Convert cosine similarities into
+    # normalized semantic probabilities.
+    #
+    # This prevents raw similarity values
+    # from dominating the lexical model.
 
-
-    # Best semantic intent
-    semantic_intent = max(
-        semantic_scores,
-        key=semantic_scores.get
+    semantic_values = np.array(
+        [
+            semantic_scores[label]
+            for label in labels
+        ],
+        dtype=np.float64
     )
 
 
-    semantic_confidence = float(
-        similarities[top_indices[0]]
+    semantic_probabilities = _softmax(
+        semantic_values * 8.0
     )
 
 
-    # --------------------------------------------------------
-    # Hybrid scoring
-    # --------------------------------------------------------
+    semantic_probability_map = {
+        label: float(
+            semantic_probabilities[index]
+        )
+        for index, label
+        in enumerate(labels)
+    }
+
+
+    semantic_best_label = max(
+        semantic_probability_map,
+        key=semantic_probability_map.get
+    )
+
+
+    semantic_confidence = (
+        semantic_probability_map[
+            semantic_best_label
+        ]
+    )
+
+
+    # ========================================================
+    # Final hybrid score
+    # ========================================================
 
     hybrid_scores = {}
 
 
     for label in labels:
 
-        # TF-IDF probability
-        class_index = list(
-            tfidf_model.classes_
-        ).index(label)
-
-
-        tfidf_score = float(
-            tfidf_probabilities[class_index]
-        )
-
-
-        # Semantic similarity vote
-        semantic_score = semantic_scores.get(
-            label,
-            0.0
-        )
-
-
-        # Normalize semantic score because
-        # up to 5 examples contribute to it
-        semantic_score = semantic_score / 5.0
-
-
-        # Weighted combination
         hybrid_scores[label] = (
-            0.55 * tfidf_score +
-            0.45 * semantic_score
+
+            0.65
+            * lexical_scores[label]
+
+            +
+
+            0.35
+            * semantic_probability_map[label]
         )
 
 
-    # Final prediction
     hybrid_intent = max(
         hybrid_scores,
         key=hybrid_scores.get
     )
 
 
-    raw_confidence = hybrid_scores[
-        hybrid_intent
-    ]
-
-
-    # Keep confidence in 0-1 range
-    hybrid_confidence = float(
-        min(
-            max(
-                raw_confidence,
-                0.0
-            ),
-            1.0
-        )
+    # Normalize final hybrid scores
+    hybrid_values = np.array(
+        [
+            hybrid_scores[label]
+            for label in labels
+        ],
+        dtype=np.float64
     )
 
 
+    hybrid_probabilities = _softmax(
+        hybrid_values * 10.0
+    )
+
+
+    hybrid_probability_map = {
+        label: float(
+            hybrid_probabilities[index]
+        )
+        for index, label
+        in enumerate(labels)
+    }
+
+
+    hybrid_confidence = (
+        hybrid_probability_map[
+            hybrid_intent
+        ]
+    )
+
+
+    # ========================================================
+    # Return prediction
+    # ========================================================
+
     return {
-        "intent": hybrid_intent,
-        "confidence": hybrid_confidence,
-        "tfidf_intent": tfidf_intent,
-        "tfidf_confidence": tfidf_confidence,
-        "semantic_intent": semantic_intent,
-        "semantic_confidence": semantic_confidence
+
+        "intent":
+            hybrid_intent,
+
+        "confidence":
+            float(
+                hybrid_confidence
+            ),
+
+        "tfidf_intent":
+            word_intent,
+
+        "tfidf_confidence":
+            float(
+                word_confidence
+            ),
+
+        "semantic_intent":
+            semantic_best_label,
+
+        "semantic_confidence":
+            float(
+                semantic_confidence
+            )
     }
 
 
 # ============================================================
-# 5. Test Examples + Interactive Mode
+# 7. Test examples
 # ============================================================
 
 def run_tests():
-    """
-    Run predefined test examples.
-    """
 
     test_messages = [
 
@@ -382,9 +675,9 @@ def run_tests():
     ]
 
 
-    print("\n" + "=" * 65)
+    print("\n" + "=" * 70)
     print("HYBRID MODEL TEST")
-    print("=" * 65)
+    print("=" * 70)
 
 
     for message in test_messages:
@@ -395,11 +688,15 @@ def run_tests():
 
 
         print("\nCustomer:")
-        print(message)
+        print(
+            message
+        )
 
 
         print("\nHybrid prediction:")
-        print(result["intent"])
+        print(
+            result["intent"]
+        )
 
 
         print(
@@ -422,18 +719,21 @@ def run_tests():
         )
 
 
-        print("-" * 65)
+        print(
+            "-" * 70
+        )
 
+
+# ============================================================
+# 8. Interactive mode
+# ============================================================
 
 def interactive_mode():
-    """
-    Interactive customer-support intent prediction.
-    """
 
-    print("\n" + "=" * 65)
+    print("\n" + "=" * 70)
     print("INTERACTIVE HYBRID MODE")
     print("Type 'exit' to stop.")
-    print("=" * 65)
+    print("=" * 70)
 
 
     while True:
@@ -445,21 +745,24 @@ def interactive_mode():
             ).strip()
 
 
-        except KeyboardInterrupt:
+        except (
+            KeyboardInterrupt,
+            EOFError
+        ):
 
-            print("\nExiting...")
-            break
+            print(
+                "\nExiting..."
+            )
 
-
-        except EOFError:
-
-            print("\nExiting...")
             break
 
 
         if message.lower() == "exit":
 
-            print("Goodbye!")
+            print(
+                "Goodbye!"
+            )
+
             break
 
 
@@ -473,8 +776,13 @@ def interactive_mode():
         )
 
 
-        print("\nPredicted intent:")
-        print(result["intent"])
+        print(
+            "\nPredicted intent:"
+        )
+
+        print(
+            result["intent"]
+        )
 
 
         print(
@@ -497,13 +805,16 @@ def interactive_mode():
         )
 
 
-        print("\nDecision:")
+        print(
+            "\nDecision:"
+        )
 
 
-        # Confidence-based decision
         if result["confidence"] >= 0.60:
 
-            print("AUTO-HANDLE")
+            print(
+                "AUTO-HANDLE"
+            )
 
             print(
                 "Reason: "
@@ -513,7 +824,9 @@ def interactive_mode():
 
         else:
 
-            print("ESCALATE")
+            print(
+                "ESCALATE"
+            )
 
             print(
                 "Reason: "
@@ -522,11 +835,13 @@ def interactive_mode():
             )
 
 
-        print("-" * 65)
+        print(
+            "-" * 70
+        )
 
 
 # ============================================================
-# 6. Main Entry Point
+# 9. Main
 # ============================================================
 
 if __name__ == "__main__":
